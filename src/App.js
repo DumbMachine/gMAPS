@@ -1,25 +1,21 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
-
+import MAP from "./components/map"
 class App extends Component {
+  state={
+    map: null
+  }
+  Handler = ()=>{
+      this.setState({
+        map: 1
+      })
+      // console.log(this.sta)
+  }
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+      <button placeholder="Something" onClick={this.Handler} ref="button"></button>
+      {this.state.map ?<MAP></MAP>:null}
+        
       </div>
     );
   }
