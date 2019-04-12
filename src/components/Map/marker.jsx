@@ -4,7 +4,15 @@ import openSocket from "socket.io-client";
 
 class Mrk extends Component {
   state = {
-    position: []
+    position: [],
+    markers: [
+      [29.946, 76.818],
+      [29.9481, 76.819065],
+      [29.94, 76.816],
+      [29.94, 76.813],
+      [29.9471, 76.812],
+      [29.946681, 76.815]
+    ],
   };
 
   componentWillMount = () => {
