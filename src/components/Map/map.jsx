@@ -95,9 +95,7 @@ class MAP extends Component {
     return (
       <div
         style={{
-          paddingBottom: "5%",
-          height: "1000px",
-          width: "1800px"
+          overflow: 'hidden'
         }}
       >
         <Map
