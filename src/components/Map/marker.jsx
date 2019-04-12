@@ -6,14 +6,19 @@ import LINE from '../line/line';
 class Mrk extends Component {
   state = {
     position: [],
-    markers: [
+    markers1: [29.94692,76.81883, 0],
+    markers2: [29.94820,76.81905, 0],
+    markers3: [29.94857,76.81601, 0],
+    markers4: [29.94898,76.81320, 0],
+    markers5: [29.94720,76.81287, 0],
+    markers6: [29.94678,76.815685, 0],
+    markers:[
       [29.94692,76.81883, 0],
       [29.94820,76.81905, 0],
       [29.94857,76.81601, 0],
       [29.94898,76.81320, 0],
       [29.94720,76.81287, 0],
-      [29.94678,76.815685, 0]
-    ],
+      [29.94678,76.815685, 0]],
     something: 0
   };
 
@@ -36,8 +41,11 @@ class Mrk extends Component {
           }
           //CHECKING POSITION
           for (i = 0; i < this.state.markers.length; i++) {
-            if(Math.abs(this.state.markers[i][0] - position.coords.latitude) <= 0.00192 && Math.abs(this.state.markers[i][1] - position.coords.longitude) <= 0.00197)  
+            if(Math.abs(this.state.markers[i][0] - position.coords.latitude) <= 0.000992 && Math.abs(this.state.markers[i][1] - position.coords.longitude) <= 0.00997)  
             console.log(this.state.markers[i])
+            this.setState({
+              markers: this.state.markers[i],
+            })
           }
           pos.push({
             name: window.localStorage.getItem("name"),
