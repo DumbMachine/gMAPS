@@ -1,11 +1,13 @@
 import React, { Component } from "react";
-import { Map, TileLayer, Marker, Popup, GeoJSON } from "react-leaflet";
+import { Map, TileLayer, GeoJSON } from "react-leaflet";
 import * as helpers from "@turf/helpers";
+
+import Marker from './marker';
 
 class MAP extends Component {
   state = {
-    lat: 29.9,
-    lng: 76.8204121,
+    lat: 29.946565,
+    lng: 76.818406,
     zoom: 15,
     zoomOffset: 10,
     markers: [
@@ -89,24 +91,6 @@ class MAP extends Component {
     ].map(latLng => [latLng[1], latLng[0]])
   );
 
-  componentDidMount = () => {
-    const options = {
-      enableHighAccuracy: true,
-      timeout: 5000,
-      maximumAge: 0
-    };
-    if (navigator.geolocation) {
-      navigator.geolocation.watchPosition(position => {
-        console.log(position.coords);
-        if (position.coords) {
-          this.setState({ lat: position.coords.latitude });
-          this.setState({ lng: position.coords.longitude });
-        }
-      }, null, options);
-    } else {
-      alert("Geolocation API is not supported in your browser.");
-    }
-  };
   render() {
     return (
       <div
@@ -130,13 +114,7 @@ class MAP extends Component {
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://api.mapbox.com/styles/v1/rustyraptor/cjkbednp4buod2rnwog2xrdtb/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicnVzdHlyYXB0b3IiLCJhIjoiY2prOXdtZ2E5MjN3ODNxbWVsM3NyNWlsZCJ9.AVHo6o9Z68w1c2lsBXuGDg"
           />
-          <Marker position={[this.state.lat, this.state.lng]}>
-            <Popup>
-              A pretty CSS3 popup.
-              <br />
-              Easily customizable.
-            </Popup>
-          </Marker>
+          <Marker />
           <GeoJSON data={this.line} />
         </Map>
       </div>

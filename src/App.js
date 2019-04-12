@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import MAP from "./components/map";
+import MAP from "./components/Map/map";
 
 class App extends Component {
   state={
@@ -9,14 +9,15 @@ class App extends Component {
       this.setState({
         map: 1
       })
-      // console.log(this.sta)
   }
+
   render() {
     return (
       <div className="App">
-      <button placeholder="Something" onClick={this.Handler} ref="button"></button>
+      <button placeholder="Something" onClick={this.Handler} ref="button">
+        WOW
+      </button>
       {this.state.map ?<MAP></MAP>:null}
-        
       </div>
     );
   }
