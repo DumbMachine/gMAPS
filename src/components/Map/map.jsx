@@ -3,6 +3,7 @@ import { Map, TileLayer } from "react-leaflet";
 import * as helpers from "@turf/helpers";
 import Marker from './marker';
 
+
 class MAP extends Component {
   state = {
     lat: 29.946565,
@@ -38,6 +39,7 @@ class MAP extends Component {
           center={[this.state.lat, this.state.lng]}
           zoom={this.state.zoom}
           zoomOffset={this.zoomOffset}
+          zoomControl={false}
         >
           <TileLayer
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'

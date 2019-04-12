@@ -3,6 +3,9 @@ import { Marker } from "react-leaflet";
 import openSocket from "socket.io-client";
 import LINE from '../line/line';
 
+import L from 'leaflet'
+
+// import faceIcon from '../icon/icon'
 class Mrk extends Component {
   state = {
     position: [],
@@ -40,11 +43,12 @@ class Mrk extends Component {
             }
           }
           //CHECKING POSITION
-          for (i = 0; i < this.state.markers.length; i++) {
-            if(Math.abs(this.state.markers[i][0] - position.coords.latitude) <= 0.000992 && Math.abs(this.state.markers[i][1] - position.coords.longitude) <= 0.00997)  
-            console.log(this.state.markers[i])
+          let markers = this.state.markers;
+          for (i = 0; i < markers.length; i++) {
+            if(Math.abs(markers[i][0] - position.coords.latitude) <= 0.000992 && Math.abs(markers[i][1] - position.coords.longitude) <= 0.001992)  
+            markers[i][2] = 1;
             this.setState({
-              markers: this.state.markers[i],
+              markers: markers
             })
           }
           pos.push({
@@ -105,10 +109,28 @@ class Mrk extends Component {
         ))}
         {this.state.markers.map(marker => (
           marker[2] ? 
-          <Marker key="1." position={[marker[0],marker[1]]} />
+          <Marker key="1." position={[marker[0],marker[1]]} icon={L.icon({
+    iconUrl: 'https://user-images.githubusercontent.com/23381512/56069674-d8354b80-5da1-11e9-867c-1d78e891b9d7.png',
+    shadowUrl: 'https://user-images.githubusercontent.com/23381512/56069674-d8354b80-5da1-11e9-867c-1d78e891b9d7.png',
+
+    iconSize:     [38, 95], // size of the icon
+    shadowSize:   [50, 64], // size of the shadow
+    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+    shadowAnchor: [4, 62],  // the same for the shadow
+    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+})} />
           : null
         ))}
-        <LINE x="52.5069704" y="13.2846501" x1="29.946565" y1="76.818406"></LINE>
+        {this.state.markers.map(marker => (
+          marker[2] ? 
+          this.state.markers.map(marker1 => (
+          marker1[2] ? 
+          <LINE x={marker[0]} y={marker[1]} x1={marker1[0]} y1={marker1[1]}/>
+          : null
+                ))
+          : null
+        ))}
+        {/* <LINE x="52.5069704" y="13.2846501" x1="29.946565" y1="76.818406"></LINE> */}
 
       </div>
     );
@@ -116,3 +138,4 @@ class Mrk extends Component {
 }
 
 export default Mrk;
+//https://user-images.githubusercontent.com/23381512/56069674-d8354b80-5da1-11e9-867c-1d78e891b9d7.png
