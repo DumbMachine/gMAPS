@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { Map, TileLayer } from "react-leaflet";
 import * as helpers from "@turf/helpers";
-import LINE from '../line/line';
 import Marker from './marker';
 
 class MAP extends Component {
@@ -45,7 +44,6 @@ class MAP extends Component {
             url="https://api.mapbox.com/styles/v1/rustyraptor/cjkbednp4buod2rnwog2xrdtb/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoicnVzdHlyYXB0b3IiLCJhIjoiY2prOXdtZ2E5MjN3ODNxbWVsM3NyNWlsZCJ9.AVHo6o9Z68w1c2lsBXuGDg"
           />
           <Marker />
-          <LINE x="52.5069704" y="13.2846501" x1="29.946565" y1="76.818406"></LINE>
         </Map>
  
       </div>

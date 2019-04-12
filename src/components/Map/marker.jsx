@@ -1,17 +1,18 @@
 import React, { Component } from "react";
 import { Marker } from "react-leaflet";
 import openSocket from "socket.io-client";
+import LINE from '../line/line';
 
 class Mrk extends Component {
   state = {
     position: [],
     markers: [
-      [29.946, 76.818],
-      [29.9481, 76.819065],
-      [29.94, 76.816],
-      [29.94, 76.813],
-      [29.9471, 76.812],
-      [29.946681, 76.815]
+      [29.94692,76.81883, 0],
+      [29.94820,76.81905, 0],
+      [29.94857,76.81601, 0],
+      [29.94898,76.81320, 0],
+      [29.94720,76.81287, 0],
+      [29.94678,76.815685, 0]
     ],
   };
 
@@ -84,6 +85,11 @@ class Mrk extends Component {
         {this.state.position.map(pos => (
           <Marker key={pos.name} position={[pos.lat, pos.lng]} />
         ))}
+        {this.state.markers.map(marker => (
+          <Marker key={"1"} position={marker} />
+        ))}
+        <LINE x="52.5069704" y="13.2846501" x1="29.946565" y1="76.818406"></LINE>
+
       </div>
     );
   }
