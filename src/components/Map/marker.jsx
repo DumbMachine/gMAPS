@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Marker } from "react-leaflet";
+import openSocket from "socket.io-client";
 
 class Mrk extends Component {
   state = {
@@ -8,6 +9,7 @@ class Mrk extends Component {
   };
 
   componentDidMount = () => {
+    const socket = openSocket("http://localhost:8000");
     const options = {
       enableHighAccuracy: true,
       timeout: 5000,
@@ -16,11 +18,14 @@ class Mrk extends Component {
     if (navigator.geolocation) {
       navigator.geolocation.watchPosition(
         position => {
-          console.log(position.coords);
-          if (position.coords) {
-            this.setState({ lat: position.coords.latitude });
-            this.setState({ lng: position.coords.longitude });
-          }
+          this.setState({
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          });
+          socket.emit("updatePosition", {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          });
         },
         null,
         options
@@ -28,12 +33,18 @@ class Mrk extends Component {
     } else {
       alert("Geolocation API is not supported in your browser.");
     }
+
+    socket.on("newPosition", data => {
+      console.log(data);
+    });
   };
 
   render() {
     return (
-      <Marker position={[this.state.lat, this.state.lng]}>
-      </Marker>
+      <div>
+        <Marker position={[this.state.lat, this.state.lng]} />
+        <Marker position={[29, 76]} />
+      </div>
     );
   }
 }
