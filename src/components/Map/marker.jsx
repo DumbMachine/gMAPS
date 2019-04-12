@@ -14,10 +14,11 @@ class Mrk extends Component {
       [29.94720,76.81287, 0],
       [29.94678,76.815685, 0]
     ],
+    something: 0
   };
 
   componentWillMount = () => {
-    const socket = openSocket("http://localhost:8000");
+    const socket = openSocket("http://localhost:8069");
     const options = {
       enableHighAccuracy: true,
       timeout: 5000,
@@ -32,6 +33,11 @@ class Mrk extends Component {
             if (pos[i].name === window.localStorage.getItem("name")) {
               pos.splice(i, 1);
             }
+          }
+          //CHECKING POSITION
+          for (i = 0; i < this.state.markers.length; i++) {
+            if(Math.abs(this.state.markers[i][0] - position.coords.latitude) <= 0.00192 && Math.abs(this.state.markers[i][1] - position.coords.longitude) <= 0.00197)  
+            console.log(this.state.markers[i])
           }
           pos.push({
             name: window.localStorage.getItem("name"),
@@ -79,6 +85,10 @@ class Mrk extends Component {
     });
   };
 
+  distanceHandler = () =>{
+    console.log("asddaasd");
+  }
+
   render() {
     return (
       <div>
@@ -86,7 +96,9 @@ class Mrk extends Component {
           <Marker key={pos.name} position={[pos.lat, pos.lng]} />
         ))}
         {this.state.markers.map(marker => (
-          <Marker key={"1"} position={marker} />
+          marker[2] ? 
+          <Marker key="1." position={[marker[0],marker[1]]} />
+          : null
         ))}
         <LINE x="52.5069704" y="13.2846501" x1="29.946565" y1="76.818406"></LINE>
 
