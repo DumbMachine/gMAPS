@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import MAP from "./components/map"
+import MAP from "./components/map";
+
 class App extends Component {
   state={
     map: null
