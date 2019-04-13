@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Marker, Popup } from "react-leaflet";
 import openSocket from "socket.io-client";
 import LINE from "../line/line";
-import something from "../icon/icon";
+import persons from "../icon/icon";
 
 import L from "leaflet";
 
@@ -21,7 +21,7 @@ class Mrk extends Component {
   };
 
   componentWillMount = () => {
-    const socket = openSocket("http://localhost:8069");
+    const socket = openSocket("http://localhost:8000");
     const options = {
       enableHighAccuracy: true,
       timeout: 5000,
@@ -37,6 +37,17 @@ class Mrk extends Component {
               pos.splice(i, 1);
             }
           }
+
+          pos.push({
+            name: window.localStorage.getItem("name"),
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          });
+          console.log("pos", pos);
+          this.setState({
+            position: pos
+          });
+
           //CHECKING POSITION
           let markers = this.state.markers;
           for (i = 0; i < markers.length; i++) {
@@ -54,29 +65,12 @@ class Mrk extends Component {
               markers: markers
             });
           }
-          pos.push({
-            name: window.localStorage.getItem("name"),
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          });
-          console.log("pos", pos);
-
-          this.setState({
-            position: pos
-          });
 
           socket.emit("updatePosition", {
             name: window.localStorage.getItem("name"),
             lat: position.coords.latitude,
             lng: position.coords.longitude
           });
-          for (i = 0; i < markers.length; i++) {
-            socket.emit("updatePosition", {
-              name: window.localStorage.getItem("name"),
-              lat: this.state.markers[i][0],
-              lng: this.state.markers[i][1]
-            });
-          }
         },
         null,
         options
@@ -89,21 +83,6 @@ class Mrk extends Component {
       console.log("new position");
       const { position } = this.state;
       console.log(position);
-
-      let markers = this.state.markers;
-      for (let i = 0; i < markers.length; i++) {
-        console.log(Math.abs(markers[i][0] - data.lat));
-        console.log(Math.abs(markers[i][1] - data.lng));
-        if (
-          Math.abs(markers[i][0] - data.lat) <= 0.0005395999999997514 &&
-          Math.abs(markers[i][1] - data.lng) <= 0.0007308999999935395
-        ) {
-          markers[i][2] = 1;
-        }
-        this.setState({
-          markers: markers
-        });
-      }
 
       for (let i = 0; i < position.length; i++) {
         if (position[i].name === data.name) {
@@ -121,6 +100,21 @@ class Mrk extends Component {
       this.setState({
         position: position
       });
+
+      let markers = this.state.markers;
+      for (let i = 0; i < markers.length; i++) {
+        console.log(Math.abs(markers[i][0] - data.lat));
+        console.log(Math.abs(markers[i][1] - data.lng));
+        if (
+          Math.abs(markers[i][0] - data.lat) <= 0.0005395999999997514 &&
+          Math.abs(markers[i][1] - data.lng) <= 0.0007308999999935395
+        ) {
+          markers[i][2] = 1;
+        }
+        this.setState({
+          markers: markers
+        });
+      }
     });
   };
 
@@ -128,11 +122,11 @@ class Mrk extends Component {
     return (
       <div>
         {this.state.position.map(pos =>
-          pos.name in ["Android Sir","Rishabh Sir","Kay Sir","Paragi Sir"] ? (
+          pos.name in persons ? (
             <Marker
               key={pos.name}
               position={[pos.lat, pos.lng]}
-              icon={L.icon(something["No name"])}
+              icon={L.icon(persons[pos.name])}
             >
               <Popup>{pos.name}</Popup>
             </Marker>
@@ -140,7 +134,7 @@ class Mrk extends Component {
             <Marker
               key={pos.name}
               position={[pos.lat, pos.lng]}
-              icon={L.icon(something[pos.name])}
+              icon={L.icon(persons["No name"])}
             >
               <Popup>{pos.name}</Popup>
             </Marker>
@@ -149,8 +143,9 @@ class Mrk extends Component {
         {this.state.markers.map(marker =>
           marker[2] ? (
             <Marker
+              key={marker[3]}
               position={[marker[0], marker[1]]}
-              icon={L.icon(something["Default"])}
+              icon={L.icon(persons["Default"])}
             >
               <Popup>{marker}</Popup>
             </Marker>
@@ -161,14 +156,15 @@ class Mrk extends Component {
             ? this.state.markers.map(marker1 =>
                 marker1[2] ? (
                   marker[3] === marker1[3] + 1 ||
-                  (marker[3] === 3 && marker1[3] === 6) ? null : (
+                  (marker[3] === 3 && marker1[3] === 6) ? (
                     <LINE
+                      key={marker[3]}
                       x={marker[0]}
                       y={marker[1]}
                       x1={marker1[0]}
                       y1={marker1[1]}
                     />
-                  )
+                  ) : null
                 ) : null
               )
             : null
