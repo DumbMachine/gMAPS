@@ -17,12 +17,12 @@ class Mrk extends Component {
     markers5: [29.94720,76.81287, 0],
     markers6: [29.94678,76.815685, 0],
     markers:[
-      [29.94692,76.81883, 0],
-      [29.94820,76.81905, 0],
-      [29.94857,76.81601, 0],
-      [29.94898,76.81320, 0],
-      [29.94720,76.81287, 0],
-      [29.94678,76.815685, 0]],
+      [29.94692,76.81883, 1],
+      [29.94820,76.81905, 1],
+      [29.94857,76.81601, 1],
+      [29.94898,76.81320, 1],
+      [29.94720,76.81287, 1],
+      [29.94678,76.815685, 1]],
     something: 0
   };
 
@@ -119,12 +119,12 @@ class Mrk extends Component {
     return (
       <div>
         {this.state.position.map(pos => (
-          <Marker key={pos.name} position={[pos.lat, pos.lng]} icon={L.icon(something[pos.name])}>            
-            <Popup>
-                {pos.name}
-            </Popup>
-          </Marker>
-        ))}
+          pos.name in ["Something"] ? 
+          <Marker key={pos.name} position={[pos.lat, pos.lng]} icon={L.icon(something[pos.name])}><Popup>{pos.name}</Popup></Marker>       
+          : <Marker key={pos.name} position={[pos.lat, pos.lng]} icon={L.icon(something['Default'])}><Popup>{pos.name}</Popup></Marker>      
+
+                ))          
+        }
         {this.state.markers.map(marker => (
           marker[2] ? 
           <Marker position={[marker[0],marker[1]]} icon={L.icon(something['Default'])}  />
