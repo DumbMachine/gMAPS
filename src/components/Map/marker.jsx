@@ -1,27 +1,28 @@
 import React, { Component } from "react";
-import { Marker, Popup} from "react-leaflet";
+import { Marker, Popup } from "react-leaflet";
 import openSocket from "socket.io-client";
-import LINE from '../line/line';
-import something from '../icon/icon'
+import LINE from "../line/line";
+import something from "../icon/icon";
 
-import L from 'leaflet'
+import L from "leaflet";
 
 // import faceIcon from '../icon/icon'
 class Mrk extends Component {
   state = {
     position: [],
-    markers:[
-      [29.94692,76.81883, 1,1],
-      [29.94820,76.81905, 1,2],
-      [29.94857,76.81601, 1,3],
-      [29.94898,76.81320, 1,4],
-      [29.94720,76.81287, 1,5],
-      [29.94678,76.815685, 1,6]],
+    markers: [
+      [29.94692, 76.81883, 1, 1],
+      [29.9482, 76.81905, 1, 2],
+      [29.94857, 76.81601, 1, 3],
+      [29.94898, 76.8132, 1, 4],
+      [29.9472, 76.81287, 1, 5],
+      [29.94678, 76.815685, 1, 6]
+    ],
     something: 0
   };
 
   componentWillMount = () => {
-    console.log(something["menu"])
+    console.log(something["menu"]);
     const socket = openSocket("http://localhost:8000");
     const options = {
       enableHighAccuracy: true,
@@ -41,15 +42,19 @@ class Mrk extends Component {
           //CHECKING POSITION
           let markers = this.state.markers;
           for (i = 0; i < markers.length; i++) {
-            console.log((Math.abs(markers[i][0] - position.coords.latitude)))
-            console.log((Math.abs(markers[i][1] - position.coords.longitude)))
-            if(Math.abs(markers[i][0] - position.coords.latitude) <= 0.0005395999999997514 && Math.abs(markers[i][1] - position.coords.longitude) <= 0.0007308999999935395)  
-            {
+            console.log(Math.abs(markers[i][0] - position.coords.latitude));
+            console.log(Math.abs(markers[i][1] - position.coords.longitude));
+            if (
+              Math.abs(markers[i][0] - position.coords.latitude) <=
+                0.0005395999999997514 &&
+              Math.abs(markers[i][1] - position.coords.longitude) <=
+                0.0007308999999935395
+            ) {
               markers[i][2] = 1;
             }
             this.setState({
               markers: markers
-            })
+            });
           }
           pos.push({
             name: window.localStorage.getItem("name"),
@@ -89,10 +94,12 @@ class Mrk extends Component {
 
       let markers = this.state.markers;
       for (i = 0; i < markers.length; i++) {
-        console.log((Math.abs(markers[i][0] - data.lat)))
-        console.log((Math.abs(markers[i][1] - data.lng)))
-        if(Math.abs(markers[i][0] - data.lat) <= 0.0005395999999997514 && Math.abs(markers[i][1] - data.lng) <= 0.0007308999999935395)  
-        {
+        console.log(Math.abs(markers[i][0] - data.lat));
+        console.log(Math.abs(markers[i][1] - data.lng));
+        if (
+          Math.abs(markers[i][0] - data.lat) <= 0.0005395999999997514 &&
+          Math.abs(markers[i][1] - data.lng) <= 0.0007308999999935395
+        ) {
           markers[i][2] = 1;
         }
         this.setState({
@@ -119,33 +126,55 @@ class Mrk extends Component {
     });
   };
 
-
   render() {
     return (
       <div>
-        {this.state.position.map(pos => (
-          pos.name in ["Something"] ? 
-          <Marker key={pos.name} position={[pos.lat, pos.lng]} icon={L.icon(something[pos.name])}><Popup>{pos.name}</Popup></Marker>       
-          : <Marker key={pos.name} position={[pos.lat, pos.lng]} icon={L.icon(something['Default'])}><Popup>{pos.name}</Popup></Marker>      
-
-                ))          
-        }
-        {this.state.markers.map(marker => (
-          marker[2] ? 
-          <Marker position={[marker[0],marker[1]]} icon={L.icon(something['Default'])} ><Popup>{marker}</Popup></Marker>
-          : null
-        ))}
-        {this.state.markers.map(marker => (
-          marker[2] ? 
-          this.state.markers.map(marker1 => (
-          marker1[2] ? 
-          marker[3]===marker1[3]+1 || (marker[3]===3 && marker1[3]===6)?
-          <LINE x={marker[0]} y={marker[1]} x1={marker1[0]} y1={marker1[1]}/>:
-          null
-          : null
-                ))
-          : null
-        ))}
+        {this.state.position.map(pos =>
+          pos.name in ["Something"] ? (
+            <Marker
+              key={pos.name}
+              position={[pos.lat, pos.lng]}
+              icon={L.icon(something[pos.name])}
+            >
+              <Popup>{pos.name}</Popup>
+            </Marker>
+          ) : (
+            <Marker
+              key={pos.name}
+              position={[pos.lat, pos.lng]}
+              icon={L.icon(something["Default"])}
+            >
+              <Popup>{pos.name}</Popup>
+            </Marker>
+          )
+        )}
+        {this.state.markers.map(marker =>
+          marker[2] ? (
+            <Marker
+              position={[marker[0], marker[1]]}
+              icon={L.icon(something["Default"])}
+            >
+              <Popup>{marker}</Popup>
+            </Marker>
+          ) : null
+        )}
+        {this.state.markers.map(marker =>
+          marker[2]
+            ? this.state.markers.map(marker1 =>
+                marker1[2] ? (
+                  marker[3] === marker1[3] + 1 ||
+                  (marker[3] === 3 && marker1[3] === 6) ? (
+                    <LINE
+                      x={marker[0]}
+                      y={marker[1]}
+                      x1={marker1[0]}
+                      y1={marker1[1]}
+                    />
+                  ) : null
+                ) : null
+              )
+            : null
+        )}
       </div>
     );
   }

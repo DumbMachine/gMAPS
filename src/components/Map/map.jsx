@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { Map, TileLayer } from "react-leaflet";
 import * as helpers from "@turf/helpers";
-import Marker from './marker';
-
+import Marker from "./marker";
 
 class MAP extends Component {
   state = {
@@ -21,13 +20,11 @@ class MAP extends Component {
     }
   };
 
-
-
   render() {
     return (
       <div
         style={{
-          overflow: 'hidden'
+          overflow: "hidden"
         }}
       >
         <Map
@@ -47,7 +44,6 @@ class MAP extends Component {
           />
           <Marker />
         </Map>
- 
       </div>
     );
   }
