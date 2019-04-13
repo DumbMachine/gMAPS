@@ -36,7 +36,20 @@ const something =
   iconUrl: "https://img.icons8.com/office/16/000000/user-male.png",
   iconSize:     [40, 40], 
   iconAnchor:   [0, 0]
+},
+"Default": {
+
+  iconUrl: "https://img.icons8.com/color/96/000000/initial-state.png",
+  iconSize:     [40, 40], 
+  iconAnchor:   [5, 5]
+},
+"Anuz Sir": {
+
+  iconUrl: "https://user-images.githubusercontent.com/23381512/56069674-d8354b80-5da1-11e9-867c-1d78e891b9d7.png",
+  iconSize:     [40, 40], 
+  iconAnchor:   [5, 5]
 }
 }
 
 export default something;
+

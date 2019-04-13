@@ -28,7 +28,7 @@ class Mrk extends Component {
 
   componentWillMount = () => {
     console.log(something["menu"])
-    const socket = openSocket("http://localhost:8069");
+    const socket = openSocket("https://56421573.ngrok.io");
     const options = {
       enableHighAccuracy: true,
       timeout: 5000,
@@ -47,7 +47,9 @@ class Mrk extends Component {
           //CHECKING POSITION
           let markers = this.state.markers;
           for (i = 0; i < markers.length; i++) {
-            if(Math.abs(markers[i][0] - position.coords.latitude) <= 0.000992 && Math.abs(markers[i][1] - position.coords.longitude) <= 0.001992)  
+            console.log((Math.abs(markers[i][0] - position.coords.latitude)))
+            console.log((Math.abs(markers[i][1] - position.coords.longitude)))
+            if(Math.abs(markers[i][0] - position.coords.latitude) <= 0.0005395999999997514 && Math.abs(markers[i][1] - position.coords.longitude) <= 0.0007308999999935395)  
             markers[i][2] = 1;
             this.setState({
               markers: markers
@@ -69,6 +71,13 @@ class Mrk extends Component {
             lat: position.coords.latitude,
             lng: position.coords.longitude
           });
+          for (i = 0; i < markers.length; i++) {
+            socket.emit("updatePosition", {
+              name: window.localStorage.getItem("name"),
+              lat: this.state.markers[i][0],
+              lng: this.state.markers[i][1]
+            });
+          }
         },
         null,
         options
@@ -99,9 +108,9 @@ class Mrk extends Component {
     });
   };
 
-  distanceHandler = () =>{
-    console.log("asddaasd");
-  }
+  // distanceHandler = () =>{
+  //   console.log("asddaasd");
+  // }
 
   render() {
     return (
@@ -115,7 +124,7 @@ class Mrk extends Component {
         ))}
         {this.state.markers.map(marker => (
           marker[2] ? 
-          <Marker key="1." position={[marker[0],marker[1]]}  />
+          <Marker position={[marker[0],marker[1]]} icon={L.icon(something['Default'])}  />
           : null
         ))}
         {this.state.markers.map(marker => (
@@ -127,12 +136,9 @@ class Mrk extends Component {
                 ))
           : null
         ))}
-        {/* <LINE x="52.5069704" y="13.2846501" x1="29.946565" y1="76.818406"></LINE> */}
-
       </div>
     );
   }
 }
 
 export default Mrk;
-//https://user-images.githubusercontent.com/23381512/56069674-d8354b80-5da1-11e9-867c-1d78e891b9d7.png
