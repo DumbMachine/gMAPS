@@ -28,7 +28,7 @@ class Mrk extends Component {
 
   componentWillMount = () => {
     console.log(something["menu"])
-    const socket = openSocket("https://56421573.ngrok.io");
+    const socket = openSocket("http://localhost:8000");
     const options = {
       enableHighAccuracy: true,
       timeout: 5000,
@@ -50,7 +50,10 @@ class Mrk extends Component {
             console.log((Math.abs(markers[i][0] - position.coords.latitude)))
             console.log((Math.abs(markers[i][1] - position.coords.longitude)))
             if(Math.abs(markers[i][0] - position.coords.latitude) <= 0.0005395999999997514 && Math.abs(markers[i][1] - position.coords.longitude) <= 0.0007308999999935395)  
-            markers[i][2] = 1;
+            {
+              markers[i][2] = 1;
+              socket.emit("nodeReached", {node: markers[i]});
+            }
             this.setState({
               markers: markers
             })
