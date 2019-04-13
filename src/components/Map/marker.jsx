@@ -52,7 +52,6 @@ class Mrk extends Component {
             if(Math.abs(markers[i][0] - position.coords.latitude) <= 0.0005395999999997514 && Math.abs(markers[i][1] - position.coords.longitude) <= 0.0007308999999935395)  
             {
               markers[i][2] = 1;
-              socket.emit("nodeReached", {node: markers[i]});
             }
             this.setState({
               markers: markers
@@ -93,11 +92,26 @@ class Mrk extends Component {
       console.log("new position");
       const { position } = this.state;
       console.log(position);
+
+      let markers = this.state.markers;
+      for (i = 0; i < markers.length; i++) {
+        console.log((Math.abs(markers[i][0] - data.lat)))
+        console.log((Math.abs(markers[i][1] - data.lng)))
+        if(Math.abs(markers[i][0] - data.lat) <= 0.0005395999999997514 && Math.abs(markers[i][1] - data.lng) <= 0.0007308999999935395)  
+        {
+          markers[i][2] = 1;
+        }
+        this.setState({
+          markers: markers
+        });
+      }
+
       for (var i = 0; i < position.length; i++) {
         if (position[i].name === data.name) {
           position.splice(i, 1);
         }
       }
+
       position.push({
         name: data.name,
         lat: data.lat,
