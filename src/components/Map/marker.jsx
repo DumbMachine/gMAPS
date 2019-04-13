@@ -11,19 +11,17 @@ class Mrk extends Component {
   state = {
     position: [],
     markers: [
-      [29.94692, 76.81883, 1, 1],
-      [29.9482, 76.81905, 1, 2],
-      [29.94857, 76.81601, 1, 3],
-      [29.94898, 76.8132, 1, 4],
-      [29.9472, 76.81287, 1, 5],
-      [29.94678, 76.815685, 1, 6]
-    ],
-    something: 0
+      [29.94692, 76.81883, 0, 1],
+      [29.9482, 76.81905, 0, 2],
+      [29.94857, 76.81601, 0, 3],
+      [29.94898, 76.8132, 0, 4],
+      [29.9472, 76.81287, 0, 5],
+      [29.94678, 76.815685, 0, 6]
+    ]
   };
 
   componentWillMount = () => {
-    console.log(something["menu"]);
-    const socket = openSocket("http://localhost:8000");
+    const socket = openSocket("http://localhost:8069");
     const options = {
       enableHighAccuracy: true,
       timeout: 5000,
@@ -93,7 +91,7 @@ class Mrk extends Component {
       console.log(position);
 
       let markers = this.state.markers;
-      for (i = 0; i < markers.length; i++) {
+      for (let i = 0; i < markers.length; i++) {
         console.log(Math.abs(markers[i][0] - data.lat));
         console.log(Math.abs(markers[i][1] - data.lng));
         if (
@@ -107,7 +105,7 @@ class Mrk extends Component {
         });
       }
 
-      for (var i = 0; i < position.length; i++) {
+      for (let i = 0; i < position.length; i++) {
         if (position[i].name === data.name) {
           position.splice(i, 1);
         }
@@ -130,11 +128,11 @@ class Mrk extends Component {
     return (
       <div>
         {this.state.position.map(pos =>
-          pos.name in ["Something"] ? (
+          pos.name in ["Android Sir","Rishabh Sir","Kay Sir","Paragi Sir"] ? (
             <Marker
               key={pos.name}
               position={[pos.lat, pos.lng]}
-              icon={L.icon(something[pos.name])}
+              icon={L.icon(something["No name"])}
             >
               <Popup>{pos.name}</Popup>
             </Marker>
@@ -142,7 +140,7 @@ class Mrk extends Component {
             <Marker
               key={pos.name}
               position={[pos.lat, pos.lng]}
-              icon={L.icon(something["Default"])}
+              icon={L.icon(something[pos.name])}
             >
               <Popup>{pos.name}</Popup>
             </Marker>
@@ -163,14 +161,14 @@ class Mrk extends Component {
             ? this.state.markers.map(marker1 =>
                 marker1[2] ? (
                   marker[3] === marker1[3] + 1 ||
-                  (marker[3] === 3 && marker1[3] === 6) ? (
+                  (marker[3] === 3 && marker1[3] === 6) ? null : (
                     <LINE
                       x={marker[0]}
                       y={marker[1]}
                       x1={marker1[0]}
                       y1={marker1[1]}
                     />
-                  ) : null
+                  )
                 ) : null
               )
             : null
