@@ -48,6 +48,12 @@ const something =
   iconUrl: "https://user-images.githubusercontent.com/23381512/56069674-d8354b80-5da1-11e9-867c-1d78e891b9d7.png",
   iconSize:     [40, 40], 
   iconAnchor:   [5, 5]
+},
+"No name": {
+
+  iconUrl: "https://img.icons8.com/doodle/48/000000/delete-sign.png",
+  iconSize:     [40, 40], 
+  iconAnchor:   [5, 5]
 }
 }
 

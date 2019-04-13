@@ -17,18 +17,18 @@ class Mrk extends Component {
     markers5: [29.94720,76.81287, 0],
     markers6: [29.94678,76.815685, 0],
     markers:[
-      [29.94692,76.81883, 0],
-      [29.94820,76.81905, 0],
-      [29.94857,76.81601, 0],
-      [29.94898,76.81320, 0],
-      [29.94720,76.81287, 0],
-      [29.94678,76.815685, 0]],
+      [29.94692,76.81883, 1],
+      [29.94820,76.81905, 1],
+      [29.94857,76.81601, 1],
+      [29.94898,76.81320, 1],
+      [29.94720,76.81287, 1],
+      [29.94678,76.815685, 1]],
     something: 0
   };
 
   componentWillMount = () => {
     console.log(something["menu"])
-    const socket = openSocket("https://b57415da.ngrok.io");
+    const socket = openSocket("http://localhost:8069");
     const options = {
       enableHighAccuracy: true,
       timeout: 5000,
