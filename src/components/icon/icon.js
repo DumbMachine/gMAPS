@@ -1,35 +1,42 @@
-//For ICON
-import L from 'leaflet'
-// import React, { Component } from "react";
-// import { Map, TileLayer, Marker, Popup } from "react-leaflet";
 
 
-// class LINE extends Component {
-//   state = {
-//     line: null
-//   };
+const something = 
+{"Kay Sir": {
 
-export default faceIcon = new L.Icon({
-    iconUrl: require('https://user-images.githubusercontent.com/23381512/56069674-d8354b80-5da1-11e9-867c-1d78e891b9d7.png'),
-    iconRetinaUrl: require('https://user-images.githubusercontent.com/23381512/56069674-d8354b80-5da1-11e9-867c-1d78e891b9d7.png'),
-    iconAnchor: [20, 40],
-    popupAnchor: [0, -35],
-    iconSize: [40, 40],
-    shadowUrl: 'https://user-images.githubusercontent.com/23381512/56069674-d8354b80-5da1-11e9-867c-1d78e891b9d7.png',
-    shadowSize: [29, 40],
-    shadowAnchor: [7, 40],
-  })
-//   componentDidMount = () =>{
-//     console.log("seomthin")
-//   }
+  iconUrl: "https://img.icons8.com/bubbles/100/000000/filled-circle.png",
+  iconSize:     [40, 40], 
+  iconAnchor:   [0, 0]
+},
+"Rishabh Sir": {
 
-//   render() {
-//     return (
-//       <div>
+  iconUrl: "https://img.icons8.com/dusk/64/000000/circle-thin.png",
+  iconSize:     [40, 40], 
+  iconAnchor:   [0, 0]
+},
+"Narendra Sir": {
 
-//       </div>
-//     );
-//   }
-// }
+  iconUrl: "https://img.icons8.com/wired/64/000000/circle.png",
+  iconSize:     [40, 40], 
+  iconAnchor:   [0, 0]
+},
+"Paragi Sir": {
 
-// export default LINE;
+  iconUrl: "https://img.icons8.com/dusk/64/000000/circle.png",
+  iconSize:     [40, 40],
+  iconAnchor:   [0, 0]
+},
+"Pankag Sir": {
+
+  iconUrl: "https://img.icons8.com/clouds/100/000000/filled-circle.png",
+  iconSize:     [40, 40], 
+  iconAnchor:   [0, 0]
+},
+"Android Sir": {
+
+  iconUrl: "https://img.icons8.com/office/16/000000/user-male.png",
+  iconSize:     [40, 40], 
+  iconAnchor:   [0, 0]
+}
+}
+
+export default something;

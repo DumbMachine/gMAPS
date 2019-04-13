@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Marker } from "react-leaflet";
+import { Marker, Popup} from "react-leaflet";
 import openSocket from "socket.io-client";
 import LINE from '../line/line';
+import something from '../icon/icon'
 
 import L from 'leaflet'
 
@@ -26,6 +27,7 @@ class Mrk extends Component {
   };
 
   componentWillMount = () => {
+    console.log(something["menu"])
     const socket = openSocket("http://localhost:8069");
     const options = {
       enableHighAccuracy: true,
@@ -105,20 +107,15 @@ class Mrk extends Component {
     return (
       <div>
         {this.state.position.map(pos => (
-          <Marker key={pos.name} position={[pos.lat, pos.lng]} />
+          <Marker key={pos.name} position={[pos.lat, pos.lng]} icon={L.icon(something[pos.name])}>            
+            <Popup>
+                {pos.name}
+            </Popup>
+          </Marker>
         ))}
         {this.state.markers.map(marker => (
           marker[2] ? 
-          <Marker key="1." position={[marker[0],marker[1]]} icon={L.icon({
-    iconUrl: 'https://user-images.githubusercontent.com/23381512/56069674-d8354b80-5da1-11e9-867c-1d78e891b9d7.png',
-    shadowUrl: 'https://user-images.githubusercontent.com/23381512/56069674-d8354b80-5da1-11e9-867c-1d78e891b9d7.png',
-
-    iconSize:     [38, 95], // size of the icon
-    shadowSize:   [50, 64], // size of the shadow
-    iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-    shadowAnchor: [4, 62],  // the same for the shadow
-    popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-})} />
+          <Marker key="1." position={[marker[0],marker[1]]}  />
           : null
         ))}
         {this.state.markers.map(marker => (
