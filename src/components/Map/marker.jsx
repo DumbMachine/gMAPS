@@ -21,7 +21,7 @@ class Mrk extends Component {
   };
 
   componentWillMount = () => {
-    const socket = openSocket("http://localhost:8000");
+    const socket = openSocket("https://8d54471e.ngrok.io");
     const options = {
       enableHighAccuracy: true,
       timeout: 5000,
@@ -155,7 +155,7 @@ class Mrk extends Component {
           marker[2]
             ? this.state.markers.map(marker1 =>
                 marker1[2] ? (
-                  marker[3] === marker1[3] + 1 ||
+                  marker[3] === marker1[3] + 1 || (marker[3] === marker1[3] - 1) ||
                   (marker[3] === 3 && marker1[3] === 6) ? (
                     <LINE
                       key={marker[3]}
