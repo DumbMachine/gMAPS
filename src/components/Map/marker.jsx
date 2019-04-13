@@ -28,7 +28,7 @@ class Mrk extends Component {
 
   componentWillMount = () => {
     console.log(something["menu"])
-    const socket = openSocket("https://56421573.ngrok.io");
+    const socket = openSocket("https://b57415da.ngrok.io");
     const options = {
       enableHighAccuracy: true,
       timeout: 5000,
@@ -116,12 +116,12 @@ class Mrk extends Component {
     return (
       <div>
         {this.state.position.map(pos => (
-          <Marker key={pos.name} position={[pos.lat, pos.lng]} icon={L.icon(something[pos.name])}>            
-            <Popup>
-                {pos.name}
-            </Popup>
-          </Marker>
-        ))}
+          pos.name in ["Something"] ? 
+          <Marker key={pos.name} position={[pos.lat, pos.lng]} icon={L.icon(something[pos.name])}><Popup>{pos.name}</Popup></Marker>       
+          : <Marker key={pos.name} position={[pos.lat, pos.lng]} icon={L.icon(something['Default'])}><Popup>{pos.name}</Popup></Marker>      
+
+                ))          
+        }
         {this.state.markers.map(marker => (
           marker[2] ? 
           <Marker position={[marker[0],marker[1]]} icon={L.icon(something['Default'])}  />
