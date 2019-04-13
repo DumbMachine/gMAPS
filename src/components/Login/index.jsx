@@ -2,10 +2,13 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 
 class Login extends Component {
-  state = { username: "" };
+  state = { username: "", password: "" };
 
   handleChange = event => {
-    this.setState({ username: event.target.value });
+    const name = event.target.name;
+    let state = {};
+    state[name] = event.target.value;
+    this.setState(state);
   };
 
   handleSubmit = event => {
@@ -17,17 +20,29 @@ class Login extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit}>
-        <label>
-          Name:
-          <input
-            type="text"
-            value={this.state.usernam}
-            onChange={this.handleChange}
-          />
-        </label>
-        <input type="submit" value="Submit" />
-      </form>
+      <div className="container center-align section">
+        <form onSubmit={this.handleSubmit}>
+          <div className="input-field">
+            <input
+              type="text"
+              placeholder="Name"
+              name="username"
+              value={this.state.username}
+              onChange={this.handleChange}
+            />
+          </div>
+          <div className="input-field">
+            <input
+              type="text"
+              placeholder="Password"
+              name="password"
+              value={this.state.password}
+              onChange={this.handleChange}
+            />
+          </div>
+          <button className="btn transparent z-depth-0 black-text" style={{border: '1px solid black'}} type="submit">Submit</button>
+        </form>
+      </div>
     );
   }
 }

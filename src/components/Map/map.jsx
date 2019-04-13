@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from 'react-router-dom';
 import { Map, TileLayer } from "react-leaflet";
 import * as helpers from "@turf/helpers";
 import Marker from "./marker";
@@ -19,6 +20,12 @@ class MAP extends Component {
       )
     }
   };
+
+  componentWillMount = () => {
+    if(!window.localStorage.getItem("name")) {
+      this.props.history.push("/");
+    }
+  }
 
   render() {
     return (
@@ -49,4 +56,4 @@ class MAP extends Component {
   }
 }
 
-export default MAP;
+export default withRouter(MAP);
