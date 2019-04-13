@@ -10,19 +10,13 @@ import L from 'leaflet'
 class Mrk extends Component {
   state = {
     position: [],
-    markers1: [29.94692,76.81883, 0],
-    markers2: [29.94820,76.81905, 0],
-    markers3: [29.94857,76.81601, 0],
-    markers4: [29.94898,76.81320, 0],
-    markers5: [29.94720,76.81287, 0],
-    markers6: [29.94678,76.815685, 0],
     markers:[
-      [29.94692,76.81883, 1],
-      [29.94820,76.81905, 1],
-      [29.94857,76.81601, 1],
-      [29.94898,76.81320, 1],
-      [29.94720,76.81287, 1],
-      [29.94678,76.815685, 1]],
+      [29.94692,76.81883, 1,1],
+      [29.94820,76.81905, 1,2],
+      [29.94857,76.81601, 1,3],
+      [29.94898,76.81320, 1,4],
+      [29.94720,76.81287, 1,5],
+      [29.94678,76.815685, 1,6]],
     something: 0
   };
 
@@ -108,9 +102,6 @@ class Mrk extends Component {
     });
   };
 
-  // distanceHandler = () =>{
-  //   console.log("asddaasd");
-  // }
 
   render() {
     return (
@@ -124,14 +115,16 @@ class Mrk extends Component {
         }
         {this.state.markers.map(marker => (
           marker[2] ? 
-          <Marker position={[marker[0],marker[1]]} icon={L.icon(something['Default'])}  />
+          <Marker position={[marker[0],marker[1]]} icon={L.icon(something['Default'])} ><Popup>{marker}</Popup></Marker>
           : null
         ))}
         {this.state.markers.map(marker => (
           marker[2] ? 
           this.state.markers.map(marker1 => (
           marker1[2] ? 
-          <LINE x={marker[0]} y={marker[1]} x1={marker1[0]} y1={marker1[1]}/>
+          marker[3]===marker1[3]+1 || (marker[3]===3 && marker1[3]===6)?
+          <LINE x={marker[0]} y={marker[1]} x1={marker1[0]} y1={marker1[1]}/>:
+          null
           : null
                 ))
           : null
