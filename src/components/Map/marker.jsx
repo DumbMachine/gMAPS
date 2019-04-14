@@ -11,12 +11,12 @@ class Mrk extends Component {
   state = {
     position: [],
     markers: [
-      [29.94692, 76.81883, 0, 1],
-      [29.9482, 76.81905, 0, 2],
-      [29.94857, 76.81601, 0, 3],
-      [29.94898, 76.8132, 0, 4],
-      [29.9472, 76.81287, 0, 5],
-      [29.94678, 76.815685, 0, 6]
+      [29.94692, 76.81883, 0, 1, "Kay Sir"],
+      [29.9482, 76.81905, 0, 2, "Rishabh Sir"],
+      [29.94857, 76.81601, 0, 3, "Narendra Sir"],
+      [29.94898, 76.8132, 0, 4, "Paragi Sir"],
+      [29.9472, 76.81287, 0, 5, "Pankag Sir"],
+      [29.94678, 76.815685, 0, 6, "Android Sir"]
     ]
   };
 
@@ -50,6 +50,7 @@ class Mrk extends Component {
 
           //CHECKING POSITION
           let markers = this.state.markers;
+          const name = window.localStorage.getItem("name");
           for (i = 0; i < markers.length; i++) {
             console.log(Math.abs(markers[i][0] - position.coords.latitude));
             console.log(Math.abs(markers[i][1] - position.coords.longitude));
@@ -57,9 +58,11 @@ class Mrk extends Component {
               Math.abs(markers[i][0] - position.coords.latitude) <=
                 0.0005395999999997514 &&
               Math.abs(markers[i][1] - position.coords.longitude) <=
-                0.0007308999999935395
+                0.0007308999999935395 && name === markers[i][4]
             ) {
               markers[i][2] = 1;
+            } else {
+              markers[i][2] = 0;
             }
             this.setState({
               markers: markers
@@ -107,9 +110,12 @@ class Mrk extends Component {
         console.log(Math.abs(markers[i][1] - data.lng));
         if (
           Math.abs(markers[i][0] - data.lat) <= 0.0005395999999997514 &&
-          Math.abs(markers[i][1] - data.lng) <= 0.0007308999999935395
+          Math.abs(markers[i][1] - data.lng) <= 0.0007308999999935395 &&
+          data.name === markers[i][4]
         ) {
           markers[i][2] = 1;
+        } else {
+          markers[i][2] = 0;
         }
         this.setState({
           markers: markers
