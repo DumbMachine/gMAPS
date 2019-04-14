@@ -61,7 +61,7 @@ class Mrk extends Component {
                 0.0007308999999935395 && name === markers[i][4]
             ) {
               markers[i][2] = 1;
-            } else {
+            } else if (name == markers[i][4]) {
               markers[i][2] = 0;
             }
             this.setState({
@@ -114,7 +114,7 @@ class Mrk extends Component {
           data.name === markers[i][4]
         ) {
           markers[i][2] = 1;
-        } else {
+        } else if (data.name === markers[i][4]) {
           markers[i][2] = 0;
         }
         this.setState({
