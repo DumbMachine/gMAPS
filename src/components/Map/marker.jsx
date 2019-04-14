@@ -21,7 +21,7 @@ class Mrk extends Component {
   };
 
   componentWillMount = () => {
-    const socket = openSocket("https://8d54471e.ngrok.io");
+    const socket = openSocket("https://gawds.ml");
     const options = {
       enableHighAccuracy: true,
       timeout: 5000,
