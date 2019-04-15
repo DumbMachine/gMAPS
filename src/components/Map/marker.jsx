@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import { Marker, Popup } from "react-leaflet";
 import openSocket from "socket.io-client";
 import LINE from "../line/line";
@@ -11,12 +12,12 @@ class Mrk extends Component {
   state = {
     position: [],
     markers: [
-      [29.94692, 76.81883, 0, 1, "Rishabh"],
-      [29.9482, 76.81905, 0, 2, "Pankaj"],
-      [29.94857, 76.81601, 0, 3, "Narendra"],
-      [29.94898, 76.8132, 0, 4, "Paragi"],
-      [29.9472, 76.81287, 0, 5, "Karan"],
-      [29.94678, 76.815685, 0, 6, "Arpit"]
+      [29.94692, 76.81883, 0, 1, "rishabh"],
+      [29.9482, 76.81905, 0, 2, "pankaj"],
+      [29.94857, 76.81601, 0, 3, "narendra"],
+      [29.94898, 76.8132, 0, 4, "paragi"],
+      [29.9472, 76.81287, 0, 5, "karan"],
+      [29.94678, 76.815685, 0, 6, "arpit"]
     ]
   };
 
@@ -31,7 +32,6 @@ class Mrk extends Component {
       navigator.geolocation.watchPosition(
         position => {
           let pos = this.state.position;
-          console.log("bhai", pos);
           for (var i = 0; i < pos.length; i++) {
             if (pos[i].name === window.localStorage.getItem("name")) {
               pos.splice(i, 1);
@@ -43,7 +43,7 @@ class Mrk extends Component {
             lat: position.coords.latitude,
             lng: position.coords.longitude
           });
-          console.log("pos", pos);
+          
           this.setState({
             position: pos
           });
@@ -52,16 +52,15 @@ class Mrk extends Component {
           let markers = this.state.markers;
           const name = window.localStorage.getItem("name");
           for (i = 0; i < markers.length; i++) {
-            console.log(Math.abs(markers[i][0] - position.coords.latitude));
-            console.log(Math.abs(markers[i][1] - position.coords.longitude));
             if (
               Math.abs(markers[i][0] - position.coords.latitude) <=
                 0.0005395999999997514 &&
               Math.abs(markers[i][1] - position.coords.longitude) <=
-                0.0007308999999935395 && name === markers[i][4]
+                0.0007308999999935395 &&
+              name === markers[i][4]
             ) {
               markers[i][2] = 1;
-            } else if (name == markers[i][4]) {
+            } else if (name === markers[i][4]) {
               markers[i][2] = 0;
             }
             this.setState({
@@ -74,6 +73,21 @@ class Mrk extends Component {
             lat: position.coords.latitude,
             lng: position.coords.longitude
           });
+
+          let count = 0;
+          for (i = 0; i < markers.length; i++) {
+            if (markers[i][2] === 1) {
+              count++;
+            } else {
+              break;
+            }
+          }
+          if (count === 6) {
+            window.localStorage.setItem("success", true);
+            window.setTimeout(() => {
+              this.props.history.push("/success");
+            }, 2000);
+          }
         },
         null,
         options
@@ -83,9 +97,7 @@ class Mrk extends Component {
     }
 
     socket.on("newPosition", data => {
-      console.log("new position");
       const { position } = this.state;
-      console.log(position);
 
       for (let i = 0; i < position.length; i++) {
         if (position[i].name === data.name) {
@@ -98,7 +110,6 @@ class Mrk extends Component {
         lat: data.lat,
         lng: data.lng
       });
-      console.log("pos", position);
 
       this.setState({
         position: position
@@ -106,8 +117,6 @@ class Mrk extends Component {
 
       let markers = this.state.markers;
       for (let i = 0; i < markers.length; i++) {
-        console.log(Math.abs(markers[i][0] - data.lat));
-        console.log(Math.abs(markers[i][1] - data.lng));
         if (
           Math.abs(markers[i][0] - data.lat) <= 0.0005395999999997514 &&
           Math.abs(markers[i][1] - data.lng) <= 0.0007308999999935395 &&
@@ -120,6 +129,21 @@ class Mrk extends Component {
         this.setState({
           markers: markers
         });
+      }
+
+      let count = 0;
+      for (let i = 0; i < markers.length; i++) {
+        if (markers[i][2] === 1) {
+          count++;
+        } else {
+          break;
+        }
+      }
+      if (count === 6) {
+        window.localStorage.setItem("success", true);
+        window.setTimeout(() => {
+          this.props.history.push("/success");
+        }, 2000);
       }
     });
   };
@@ -159,12 +183,13 @@ class Mrk extends Component {
         )}
         {this.state.markers.map(marker =>
           marker[2]
-            ? this.state.markers.map(marker1 =>
+            ? this.state.markers.map((marker1, index) =>
                 marker1[2] ? (
-                  marker[3] === marker1[3] + 1 || (marker[3] === marker1[3] - 1) ||
+                  marker[3] === marker1[3] + 1 ||
+                  marker[3] === marker1[3] - 1 ||
                   (marker[3] === 3 && marker1[3] === 6) ? (
                     <LINE
-                      key={marker[3]}
+                      key={index}
                       x={marker[0]}
                       y={marker[1]}
                       x1={marker1[0]}
@@ -180,4 +205,4 @@ class Mrk extends Component {
   }
 }
 
-export default Mrk;
+export default withRouter(Mrk);

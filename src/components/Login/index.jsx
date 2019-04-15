@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 
 class Login extends Component {
-  state = { username: "", password: "" };
+  state = { username: "" };
 
   handleChange = event => {
     const name = event.target.name;
@@ -13,14 +13,16 @@ class Login extends Component {
 
   handleSubmit = event => {
     event.preventDefault();
-    console.log(this.state.username);
-    window.localStorage.setItem("name", this.state.username);
+    const username = this.state.username.toLowerCase();
+    window.localStorage.setItem("name", username);
     this.props.history.push("/map");
   };
 
   render() {
     return (
       <div className="container center-align section">
+        <h3>Can you make a g bigger than this</h3>
+        <h1 style={{marginBottom: '100px'}}>g</h1>
         <form onSubmit={this.handleSubmit}>
           <div className="input-field">
             <input
@@ -28,15 +30,6 @@ class Login extends Component {
               placeholder="Name"
               name="username"
               value={this.state.username}
-              onChange={this.handleChange}
-            />
-          </div>
-          <div className="input-field">
-            <input
-              type="text"
-              placeholder="Password"
-              name="password"
-              value={this.state.password}
               onChange={this.handleChange}
             />
           </div>
